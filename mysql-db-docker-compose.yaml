@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  db:
+    restart: always
+    container_name: mysql_db
+    image: mysql:5.7.43
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: employee
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+      MYSQL_TCP_PORT: 3306
+    volumes:
+      - D:/DockerData/mysql_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  # phpmyadmin
+  phpmyadmin:
+    links:
+      - db:db
+    image: phpmyadmin/phpmyadmin:5
+    restart: always
+    ports:
+      - '9000:80'
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
